@@ -15,6 +15,26 @@ interface BannerCanvasProps {
   graphicStyle: GraphicStyle;
 }
 
+// Seeded random number generator for consistent server/client rendering
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
+// Create a consistent seed based on inputs
+const createSeed = (text: string, color: string) => {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    hash = ((hash << 5) - hash) + text.charCodeAt(i);
+    hash = hash & hash;
+  }
+  for (let i = 0; i < color.length; i++) {
+    hash = ((hash << 5) - hash) + color.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+};
+
 export default function BannerCanvas({
   primaryText,
   secondaryText,
@@ -50,11 +70,15 @@ export default function BannerCanvas({
     const spacing = 45 * scale;
     const startY = 100;
 
+    // Create seeds for consistent randomization
+    const quantitySeed = createSeed(primaryText + quantityColor, 'quantity');
+    const qualitySeed = createSeed(secondaryText + qualityColor, 'quality');
+
     // Left side - more dots (Quantity)
     for (let i = 0; i < leftDots; i++) {
       const x = 150 + (i % 4) * spacing;
       const y = startY + Math.floor(i / 4) * spacing;
-      const radius = 8 + Math.random() * 4;
+      const radius = 8 + seededRandom(quantitySeed + i) * 4;
       dots.push(
         <circle
           key={`left-${i}`}
@@ -62,7 +86,7 @@ export default function BannerCanvas({
           cy={y}
           r={radius}
           fill={quantityColor}
-          opacity={0.7 + Math.random() * 0.3}
+          opacity={0.7 + seededRandom(quantitySeed + i + 100) * 0.3}
         />
       );
     }
@@ -71,7 +95,7 @@ export default function BannerCanvas({
     for (let i = 0; i < rightDots; i++) {
       const x = 1200 + (i % 3) * spacing * 1.2;
       const y = startY + Math.floor(i / 3) * spacing * 1.2;
-      const radius = 12 + Math.random() * 6;
+      const radius = 12 + seededRandom(qualitySeed + i) * 6;
       dots.push(
         <circle
           key={`right-${i}`}
@@ -79,7 +103,7 @@ export default function BannerCanvas({
           cy={y}
           r={radius}
           fill={qualityColor}
-          opacity={0.8 + Math.random() * 0.2}
+          opacity={0.8 + seededRandom(qualitySeed + i + 100) * 0.2}
         />
       );
     }
