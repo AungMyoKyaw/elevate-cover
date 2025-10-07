@@ -1,0 +1,63 @@
+# Ignore artifacts:
+node_modules
+.next
+.out
+.dist
+build
+dist
+coverage
+.vscode
+.idea
+.DS_Store
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Bundler/packager outputs
+public
+*.min.js
+*.map
+
+# Environment
+.env
+.env.*
+
+# Misc
+*.pyc
+__pycache__
+*.sqlite
+
+# Mac / Editor files
+*.swp
+*.swo
+*.tmp
+*.log
+
+# Ignore generated folders
+.next
+.out
+
+# Ignore git
+.git
+
+# Optional: ignore node debug
+npm-debug.log*
+
+# Ignore coverage reports
+coverage/
+
+# Ignore built packages
+dist/
+build/
+
+# Ignore lockfiles again
+package-lock.json
+
+# Do not format these config files
+.prettierignore
+.prettierrc
+
+# VS Code workspace
+*.code-workspace

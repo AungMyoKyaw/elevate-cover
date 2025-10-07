@@ -1,12 +1,12 @@
 # Product Requirements Document (PRD): ElevateCover
 
-| Key Information | Value |
-|---|---|
-| Product Name | ElevateCover |
-| Owner (PM) | [Your Name/Role] |
-| Creation Date | October 7, 2025 |
-| Status | MVP V1.0 – Ready for Development |
-| Target Launch | Q1 2026 |
+| Key Information | Value                            |
+| --------------- | -------------------------------- |
+| Product Name    | ElevateCover                     |
+| Owner (PM)      | [Your Name/Role]                 |
+| Creation Date   | October 7, 2025                  |
+| Status          | MVP V1.0 – Ready for Development |
+| Target Launch   | Q1 2026                          |
 
 ## 1. Introduction & Vision
 
@@ -64,25 +64,25 @@ Career-focused professionals, job seekers, and thought leaders (e.g., consultant
 
 ### 3.2. Success Metrics (KPIs)
 
-| KPI | Target | Timeframe | Alignment |
-|-----|--------|-----------|-----------|
-| Unique Downloads (Adoption) | 5,000+ | Within the first 60 days post-launch | 2, 3 |
-| Conversion Rate (P-M Fit) | > 15% | Ongoing, monthly average | 1 |
-| Returning Users (Retention Foundation) | 10% MoM increase | Q1 post-launch | 3 |
-| Average Time to Download | < 4 minutes | Ongoing | UX/Quality |
+| KPI                                    | Target           | Timeframe                            | Alignment  |
+| -------------------------------------- | ---------------- | ------------------------------------ | ---------- |
+| Unique Downloads (Adoption)            | 5,000+           | Within the first 60 days post-launch | 2, 3       |
+| Conversion Rate (P-M Fit)              | > 15%            | Ongoing, monthly average             | 1          |
+| Returning Users (Retention Foundation) | 10% MoM increase | Q1 post-launch                       | 3          |
+| Average Time to Download               | < 4 minutes      | Ongoing                              | UX/Quality |
 
 ## 4. Features & Requirements
 
 ### 4.1. Core Features (MVP)
 
-| ID | Feature | Description |
-|----|---------|-------------|
-| F-100 | Canvas & Dimensions | Custom 1584x396px Canvas for LinkedIn Banner Size. |
-| F-101 | Gradient Background | Two-color Gradient Background Selector (Quantity Color & Quality Color). |
-| F-102 | Text Input & Editing | Customizable Text Input (Primary and Secondary Slogans). |
-| F-103 | Text Styling | Font Customization (Size, Alignment, Vertical Spacing). |
-| F-104 | Graphic Styles | Selection of 3 Abstract Graphic Styles (Dots, Funnel, Network Path). |
-| F-105 | PNG Output | Pixel-perfect PNG Download Functionality (Client-side SVG/Canvas conversion). |
+| ID    | Feature              | Description                                                                   |
+| ----- | -------------------- | ----------------------------------------------------------------------------- |
+| F-100 | Canvas & Dimensions  | Custom 1584x396px Canvas for LinkedIn Banner Size.                            |
+| F-101 | Gradient Background  | Two-color Gradient Background Selector (Quantity Color & Quality Color).      |
+| F-102 | Text Input & Editing | Customizable Text Input (Primary and Secondary Slogans).                      |
+| F-103 | Text Styling         | Font Customization (Size, Alignment, Vertical Spacing).                       |
+| F-104 | Graphic Styles       | Selection of 3 Abstract Graphic Styles (Dots, Funnel, Network Path).          |
+| F-105 | PNG Output           | Pixel-perfect PNG Download Functionality (Client-side SVG/Canvas conversion). |
 
 ### 4.2. User Stories
 
@@ -136,6 +136,5 @@ To ensure focus and a timely launch for the Minimum Viable Product (MVP), the fo
 1. **User Authentication or Account Creation**: No login, user profiles, or cloud storage will be implemented.
 2. **Image Upload/Manipulation**: Users cannot upload external images (photos, logos) or manipulate image layers.
 3. **Template Saving/History**: The ability to save designs for later retrieval (local or cloud storage) is excluded.
-4. **Premium Features/Templates**: The 15+ exclusive templates mentioned in the future features list are excluded. Only the 3 core styles will be available.
-5. **API Integrations**: Direct upload to LinkedIn or integration with third-party data services (AI prompts) is excluded. The output is strictly a file download.
-6. **Animated Graphics**: The output must be a static PNG file; dynamic or animated SVG/GIF/MP4 outputs are out of scope.
+4. **API Integrations**: Direct upload to LinkedIn or integration with third-party data services (AI prompts) is excluded. The output is strictly a file download.
+5. **Animated Graphics**: The output must be a static PNG file; dynamic or animated SVG/GIF/MP4 outputs are out of scope.
