@@ -218,6 +218,20 @@ export default function BannerCanvas({
     }
   };
 
+  // Calculate perfect vertical centering for both text lines as a group
+  const getVerticalPositions = () => {
+    const svgHeight = 396;
+    const centerPoint = svgHeight / 2; // 198px
+    const halfLineSpacing = lineHeight / 2; // Half the distance between lines
+
+    return {
+      primary: centerPoint - halfLineSpacing, // Above center
+      secondary: centerPoint + halfLineSpacing // Below center
+    };
+  };
+
+  const verticalPositions = getVerticalPositions();
+
   useEffect(() => {
     // This effect can be used for any animations or dynamic updates
   }, [
@@ -253,26 +267,28 @@ export default function BannerCanvas({
       {/* Graphic elements */}
       {renderGraphic()}
 
-      {/* Text content */}
+      {/* Text content - dynamically centered vertically */}
       <text
         x={getTextX()}
-        y={150}
+        y={verticalPositions.primary}
         fontSize={fontSize}
         fontWeight="700"
         fill="#ffffff"
         textAnchor={getTextAnchor()}
+        dominantBaseline="middle"
         style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
       >
         {primaryText}
       </text>
       <text
         x={getTextX()}
-        y={150 + lineHeight}
+        y={verticalPositions.secondary}
         fontSize={fontSize * 0.7}
         fontWeight="500"
         fill="#ffffff"
         opacity="0.95"
         textAnchor={getTextAnchor()}
+        dominantBaseline="middle"
         style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
       >
         {secondaryText}
