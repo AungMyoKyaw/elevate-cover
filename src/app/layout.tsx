@@ -15,7 +15,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'ElevateCover - Professional LinkedIn Banner Generator',
   description:
-    'Create high-impact, brand-aligned LinkedIn cover images instantly. Customize colors, text, and graphics to communicate your unique value proposition.'
+    'Create high-impact, brand-aligned LinkedIn cover images instantly. Customize colors, text, and graphics to communicate your unique value proposition.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' }
+    ]
+  }
 };
 
 export default function RootLayout({
