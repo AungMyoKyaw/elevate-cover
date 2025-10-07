@@ -9,7 +9,7 @@ ElevateCover is an intuitive, web-based SVG generator that offers highly customi
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38bdf8)
 
-![ElevateCover Screenshot](assets/elevate-cover-1759859101807.png)
+![ElevateCover Screenshot](assets/elevate-cover.png)
 
 ## ✨ Features
 

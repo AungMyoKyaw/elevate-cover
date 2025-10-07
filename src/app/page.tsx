@@ -35,19 +35,27 @@ export default function Home() {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = async (quality: 'normal' | 'high') => {
     if (!canvasRef.current) return;
 
     const svgElement = canvasRef.current.querySelector('svg');
     if (!svgElement) return;
 
     try {
+      // Set scale factor based on quality
+      const scaleFactor = quality === 'high' ? 2 : 1;
       const canvas = document.createElement('canvas');
-      canvas.width = 1584;
-      canvas.height = 396;
+      canvas.width = 1584 * scaleFactor;
+      canvas.height = 396 * scaleFactor;
       const ctx = canvas.getContext('2d');
 
       if (!ctx) return;
+
+      // Configure image rendering based on quality
+      if (quality === 'high') {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+      }
 
       const svgString = new XMLSerializer().serializeToString(svgElement);
       const svgBlob = new Blob([svgString], {
@@ -57,18 +65,35 @@ export default function Home() {
 
       const img = new Image();
       img.onload = () => {
-        ctx.drawImage(img, 0, 0);
+        // Draw image at the selected resolution
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         URL.revokeObjectURL(url);
 
-        canvas.toBlob((blob) => {
-          if (!blob) return;
-          const pngUrl = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `elevate-cover-${Date.now()}.png`;
-          link.href = pngUrl;
-          link.click();
-          URL.revokeObjectURL(pngUrl);
-        }, 'image/png');
+        if (quality === 'high') {
+          // Use high-quality export for high quality
+          const dataUrl = canvas.toDataURL('image/png', 1.0);
+          fetch(dataUrl)
+            .then((res) => res.blob())
+            .then((blob) => {
+              const pngUrl = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.download = `elevate-cover-hd-${Date.now()}.png`;
+              link.href = pngUrl;
+              link.click();
+              URL.revokeObjectURL(pngUrl);
+            });
+        } else {
+          // Use standard export for normal quality
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+            const pngUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `elevate-cover-${Date.now()}.png`;
+            link.href = pngUrl;
+            link.click();
+            URL.revokeObjectURL(pngUrl);
+          }, 'image/png');
+        }
       };
 
       img.src = url;
@@ -180,10 +205,10 @@ export default function Home() {
                     </svg>
                     <div>
                       <p className="text-sm font-semibold text-purple-900">
-                        High Quality
+                        Ultra High Quality
                       </p>
                       <p className="text-xs text-purple-700">
-                        Pixel-perfect PNG output
+                        2x resolution PNG export
                       </p>
                     </div>
                   </div>

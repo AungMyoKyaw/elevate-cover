@@ -19,7 +19,7 @@ interface ControlPanelProps {
   setTextAlign: (value: 'left' | 'center' | 'right') => void;
   graphicStyle: GraphicStyle;
   setGraphicStyle: (value: GraphicStyle) => void;
-  onDownload: () => void;
+  onDownload: (quality: 'normal' | 'high') => void;
   onApplyPreset: (preset: string) => void;
 }
 
@@ -306,28 +306,63 @@ export default function ControlPanel({
         </p>
       </div>
 
-      {/* Download Button */}
-      <button
-        onClick={onDownload}
-        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
-      >
-        <span className="flex items-center justify-center gap-2">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+      {/* Download Options */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold text-gray-900">
+          Download Quality
+        </h3>
+
+        <div className="space-y-2">
+          <button
+            onClick={() => onDownload('normal')}
+            className="w-full bg-gray-100 text-gray-900 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition-all border border-gray-300"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
-          Download PNG (1584×396)
-        </span>
-      </button>
+            <span className="flex items-center justify-center gap-2">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              Standard Quality (1584×396)
+            </span>
+          </button>
+
+          <button
+            onClick={() => onDownload('high')}
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+              High Quality (2x Resolution - 3168×792)
+            </span>
+          </button>
+        </div>
+
+        <p className="text-xs text-gray-500 text-center">
+          High quality files are larger but provide crisper text and better
+          detail
+        </p>
+      </div>
     </div>
   );
 }
