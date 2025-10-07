@@ -1,0 +1,122 @@
+# .editorconfig — EditorConfig for the elevate-cover repository
+# Top-most EditorConfig file
+root = true
+
+[*.{ts,tsx,js,jsx,mjs,cjs}]
+# JavaScript / TypeScript / module files
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{json,json5}]
+# JSON files used for tooling and lockfiles — keep consistent 2-space formatting
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{css,scss,sass,less,pcss}]
+# Stylesheets — consistent indentation and line endings
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{html,htm,vue}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{md,mdx}]
+# Markdown and MDX: preserve trailing whitespace (used for hard breaks)
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+# YAML files (CI, config) — 2 spaces is common and required for many YAML glues
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[Makefile]
+# Makefiles require tabs for recipe indentation — do not change to spaces
+indent_style = tab
+tab_width = 8
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+[*.sh]
+# Shell scripts — keep LF endings and UTF-8 charset
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{png,jpg,jpeg,gif,svg,ico,webp}]
+# Binary/image files — editor rules are irrelevant; disable trimming to be safe
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{toml,ini,env}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.lock]
+# Lockfiles can be large; maintain stable JSON formatting
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[**/spec/**]
+# Project docs/specs folder — use Markdown rules, but be explicit for other files
+indent_style = space
+indent_size = 2
+tab_width = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+[*.ps1]
+# PowerShell files — use UTF-8 and LF for consistency across the repo
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
