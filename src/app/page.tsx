@@ -25,6 +25,9 @@ export default function Home() {
     'center'
   );
   const [graphicStyle, setGraphicStyle] = useState<GraphicStyle>('dots');
+  const [currentPlatform, setCurrentPlatform] = useState('linkedin');
+  const [canvasWidth, setCanvasWidth] = useState(1584);
+  const [canvasHeight, setCanvasHeight] = useState(396);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleApplyPreset = (presetId: string) => {
@@ -33,6 +36,16 @@ export default function Home() {
       setQuantityColor(preset.quantityColor);
       setQualityColor(preset.qualityColor);
     }
+  };
+
+  const handleDimensionChange = (
+    platform: string,
+    width: number,
+    height: number
+  ) => {
+    setCurrentPlatform(platform);
+    setCanvasWidth(width);
+    setCanvasHeight(height);
   };
 
   const handleDownload = async (quality: 'normal' | 'high') => {
@@ -45,8 +58,8 @@ export default function Home() {
       // Set scale factor based on quality
       const scaleFactor = quality === 'high' ? 2 : 1;
       const canvas = document.createElement('canvas');
-      canvas.width = 1584 * scaleFactor;
-      canvas.height = 396 * scaleFactor;
+      canvas.width = canvasWidth * scaleFactor;
+      canvas.height = canvasHeight * scaleFactor;
       const ctx = canvas.getContext('2d');
 
       if (!ctx) return;
@@ -77,7 +90,7 @@ export default function Home() {
             .then((blob) => {
               const pngUrl = URL.createObjectURL(blob);
               const link = document.createElement('a');
-              link.download = `elevate-cover-hd-${Date.now()}.png`;
+              link.download = `elevate-cover-${currentPlatform}-hd-${Date.now()}.png`;
               link.href = pngUrl;
               link.click();
               URL.revokeObjectURL(pngUrl);
@@ -88,7 +101,7 @@ export default function Home() {
             if (!blob) return;
             const pngUrl = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.download = `elevate-cover-${Date.now()}.png`;
+            link.download = `elevate-cover-${currentPlatform}-${Date.now()}.png`;
             link.href = pngUrl;
             link.click();
             URL.revokeObjectURL(pngUrl);
@@ -112,9 +125,9 @@ export default function Home() {
             ElevateCover
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Create high-impact, brand-aligned LinkedIn cover images instantly.
-            Customize colors, text, and graphics to communicate your unique
-            value proposition.
+            Create high-impact, brand-aligned cover images for LinkedIn and
+            Facebook instantly. Customize colors, text, graphics, and platform
+            dimensions to communicate your unique value proposition.
           </p>
         </header>
 
@@ -160,6 +173,8 @@ export default function Home() {
                   lineHeight={lineHeight}
                   textAlign={textAlign}
                   graphicStyle={graphicStyle}
+                  width={canvasWidth}
+                  height={canvasHeight}
                 />
               </div>
               <div className="mt-4 grid md:grid-cols-2 gap-3">
@@ -180,10 +195,16 @@ export default function Home() {
                     </svg>
                     <div>
                       <p className="text-sm font-semibold text-blue-900">
-                        Perfect Dimensions
+                        Platform Dimensions
                       </p>
                       <p className="text-xs text-blue-700">
-                        1584 × 396 pixels for LinkedIn
+                        {canvasWidth} × {canvasHeight} pixels (
+                        {currentPlatform === 'linkedin'
+                          ? 'LinkedIn'
+                          : currentPlatform.includes('facebook')
+                            ? 'Facebook'
+                            : 'Custom'}
+                        )
                       </p>
                     </div>
                   </div>
@@ -272,6 +293,10 @@ export default function Home() {
               setGraphicStyle={setGraphicStyle}
               onDownload={handleDownload}
               onApplyPreset={handleApplyPreset}
+              onDimensionChange={handleDimensionChange}
+              currentPlatform={currentPlatform}
+              currentWidth={canvasWidth}
+              currentHeight={canvasHeight}
             />
           </div>
         </div>

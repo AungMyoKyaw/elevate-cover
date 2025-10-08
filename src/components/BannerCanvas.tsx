@@ -13,6 +13,8 @@ interface BannerCanvasProps {
   lineHeight: number;
   textAlign: 'left' | 'center' | 'right';
   graphicStyle: GraphicStyle;
+  width: number;
+  height: number;
 }
 
 // Seeded random number generator for consistent server/client rendering
@@ -43,7 +45,9 @@ export default function BannerCanvas({
   fontSize,
   lineHeight,
   textAlign,
-  graphicStyle
+  graphicStyle,
+  width,
+  height
 }: BannerCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -65,10 +69,10 @@ export default function BannerCanvas({
 
   const renderDots = (scale: number) => {
     const dots = [];
-    const leftDots = 12;
-    const rightDots = 8;
-    const spacing = 45 * scale;
-    const startY = 100;
+    const leftDots = Math.max(6, Math.floor(12 * (width / 1584)));
+    const rightDots = Math.max(4, Math.floor(8 * (width / 1584)));
+    const spacing = Math.max(20, 45 * scale * (width / 1584));
+    const startY = height * 0.25;
 
     // Create seeds for consistent randomization
     const quantitySeed = createSeed(primaryText + quantityColor, 'quantity');
@@ -76,9 +80,11 @@ export default function BannerCanvas({
 
     // Left side - more dots (Quantity)
     for (let i = 0; i < leftDots; i++) {
-      const x = 150 + (i % 4) * spacing;
+      const x = width * 0.1 + (i % 4) * spacing;
       const y = startY + Math.floor(i / 4) * spacing;
-      const radius = 8 + seededRandom(quantitySeed + i) * 4;
+      const radius =
+        Math.max(4, 8 * (width / 1584)) +
+        seededRandom(quantitySeed + i) * 4 * (width / 1584);
       dots.push(
         <circle
           key={`left-${i}`}
@@ -93,9 +99,11 @@ export default function BannerCanvas({
 
     // Right side - fewer dots (Quality)
     for (let i = 0; i < rightDots; i++) {
-      const x = 1200 + (i % 3) * spacing * 1.2;
+      const x = width * 0.75 + (i % 3) * spacing * 1.2;
       const y = startY + Math.floor(i / 3) * spacing * 1.2;
-      const radius = 12 + seededRandom(qualitySeed + i) * 6;
+      const radius =
+        Math.max(6, 12 * (width / 1584)) +
+        seededRandom(qualitySeed + i) * 6 * (width / 1584);
       dots.push(
         <circle
           key={`right-${i}`}
@@ -113,15 +121,17 @@ export default function BannerCanvas({
 
   const renderFunnel = (scale: number) => {
     const elements = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
 
     // Left wide opening (Quantity)
-    const leftPath = `M 100,80 L 100,316 L 350,280 L 350,116 Z`;
+    const leftPath = `M ${100 * scaleX},${80 * scaleY} L ${100 * scaleX},${316 * scaleY} L ${350 * scaleX},${280 * scaleY} L ${350 * scaleX},${116 * scaleY} Z`;
     elements.push(
       <path key="left-funnel" d={leftPath} fill={quantityColor} opacity={0.7} />
     );
 
     // Middle transition
-    const middlePath = `M 350,116 L 350,280 L 650,240 L 650,156 Z`;
+    const middlePath = `M ${350 * scaleX},${116 * scaleY} L ${350 * scaleX},${280 * scaleY} L ${650 * scaleX},${240 * scaleY} L ${650 * scaleX},${156 * scaleY} Z`;
     elements.push(
       <path
         key="middle-funnel"
@@ -132,7 +142,7 @@ export default function BannerCanvas({
     );
 
     // Right narrow opening (Quality)
-    const rightPath = `M 650,156 L 650,240 L 800,220 L 800,176 Z`;
+    const rightPath = `M ${650 * scaleX},${156 * scaleY} L ${650 * scaleX},${240 * scaleY} L ${800 * scaleX},${220 * scaleY} L ${800 * scaleX},${176 * scaleY} Z`;
     elements.push(
       <path
         key="right-funnel"
@@ -147,16 +157,63 @@ export default function BannerCanvas({
 
   const renderNetwork = (scale: number) => {
     const elements = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
     const nodes = [
-      { x: 150, y: 120, r: 6, color: quantityColor },
-      { x: 200, y: 180, r: 7, color: quantityColor },
-      { x: 250, y: 100, r: 5, color: quantityColor },
-      { x: 280, y: 200, r: 8, color: quantityColor },
-      { x: 350, y: 150, r: 6, color: quantityColor },
-      { x: 450, y: 180, r: 10, color: `url(#gradient)` },
-      { x: 600, y: 160, r: 12, color: qualityColor },
-      { x: 750, y: 190, r: 14, color: qualityColor },
-      { x: 900, y: 170, r: 16, color: qualityColor }
+      {
+        x: 150 * scaleX,
+        y: 120 * scaleY,
+        r: 6 * Math.min(scaleX, scaleY),
+        color: quantityColor
+      },
+      {
+        x: 200 * scaleX,
+        y: 180 * scaleY,
+        r: 7 * Math.min(scaleX, scaleY),
+        color: quantityColor
+      },
+      {
+        x: 250 * scaleX,
+        y: 100 * scaleY,
+        r: 5 * Math.min(scaleX, scaleY),
+        color: quantityColor
+      },
+      {
+        x: 280 * scaleX,
+        y: 200 * scaleY,
+        r: 8 * Math.min(scaleX, scaleY),
+        color: quantityColor
+      },
+      {
+        x: 350 * scaleX,
+        y: 150 * scaleY,
+        r: 6 * Math.min(scaleX, scaleY),
+        color: quantityColor
+      },
+      {
+        x: 450 * scaleX,
+        y: 180 * scaleY,
+        r: 10 * Math.min(scaleX, scaleY),
+        color: `url(#gradient)`
+      },
+      {
+        x: 600 * scaleX,
+        y: 160 * scaleY,
+        r: 12 * Math.min(scaleX, scaleY),
+        color: qualityColor
+      },
+      {
+        x: 750 * scaleX,
+        y: 190 * scaleY,
+        r: 14 * Math.min(scaleX, scaleY),
+        color: qualityColor
+      },
+      {
+        x: 900 * scaleX,
+        y: 170 * scaleY,
+        r: 16 * Math.min(scaleX, scaleY),
+        color: qualityColor
+      }
     ];
 
     // Draw connections
@@ -171,7 +228,7 @@ export default function BannerCanvas({
           x2={to.x}
           y2={to.y}
           stroke={i < 4 ? quantityColor : qualityColor}
-          strokeWidth={2}
+          strokeWidth={2 * Math.min(scaleX, scaleY)}
           opacity={0.4}
         />
       );
@@ -207,22 +264,22 @@ export default function BannerCanvas({
   };
 
   const getTextX = () => {
+    const padding = width * 0.076; // Dynamic padding based on width
     switch (textAlign) {
       case 'left':
-        return 120;
+        return padding;
       case 'right':
-        return 1464;
+        return width - padding;
       case 'center':
       default:
-        return 792;
+        return width / 2;
     }
   };
 
   // Calculate perfect vertical centering for both text lines as a group
   const getVerticalPositions = () => {
-    const svgHeight = 396;
-    const centerPoint = svgHeight / 2; // 198px
-    const halfLineSpacing = lineHeight / 2; // Half the distance between lines
+    const centerPoint = height / 2;
+    const halfLineSpacing = lineHeight / 2;
 
     return {
       primary: centerPoint - halfLineSpacing, // Above center
@@ -248,9 +305,9 @@ export default function BannerCanvas({
   return (
     <svg
       ref={svgRef}
-      width="1584"
-      height="396"
-      viewBox="0 0 1584 396"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-auto border border-gray-300 rounded-lg shadow-lg"
     >
@@ -262,7 +319,7 @@ export default function BannerCanvas({
       </defs>
 
       {/* Background gradient */}
-      <rect width="1584" height="396" fill="url(#gradient)" />
+      <rect width={width} height={height} fill="url(#gradient)" />
 
       {/* Graphic elements */}
       {renderGraphic()}

@@ -21,6 +21,10 @@ interface ControlPanelProps {
   setGraphicStyle: (value: GraphicStyle) => void;
   onDownload: (quality: 'normal' | 'high') => void;
   onApplyPreset: (preset: string) => void;
+  onDimensionChange: (platform: string, width: number, height: number) => void;
+  currentPlatform: string;
+  currentWidth: number;
+  currentHeight: number;
 }
 
 const presets = [
@@ -50,6 +54,44 @@ const presets = [
   }
 ];
 
+const dimensionPresets = [
+  {
+    id: 'linkedin',
+    name: 'LinkedIn Cover',
+    width: 1584,
+    height: 396,
+    description: 'LinkedIn banner cover'
+  },
+  {
+    id: 'facebook-cover',
+    name: 'Facebook Cover',
+    width: 851,
+    height: 315,
+    description: 'Facebook profile cover photo'
+  },
+  {
+    id: 'facebook-link',
+    name: 'Facebook Link Post',
+    width: 1200,
+    height: 628,
+    description: 'Facebook shared link preview'
+  },
+  {
+    id: 'facebook-story',
+    name: 'Facebook Story',
+    width: 1080,
+    height: 1920,
+    description: 'Facebook story format'
+  },
+  {
+    id: 'facebook-square',
+    name: 'Facebook Square Ad',
+    width: 1080,
+    height: 1080,
+    description: 'Facebook square advertisement'
+  }
+];
+
 export default function ControlPanel({
   primaryText,
   setPrimaryText,
@@ -68,7 +110,11 @@ export default function ControlPanel({
   graphicStyle,
   setGraphicStyle,
   onDownload,
-  onApplyPreset
+  onApplyPreset,
+  onDimensionChange,
+  currentPlatform,
+  currentWidth,
+  currentHeight
 }: ControlPanelProps) {
   return (
     <div className="w-full max-w-md space-y-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
@@ -96,6 +142,46 @@ export default function ControlPanel({
               </div>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Dimension Presets */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold text-gray-900">
+          Platform Dimensions
+        </h3>
+        <div className="space-y-2">
+          {dimensionPresets.map((preset) => (
+            <button
+              key={preset.id}
+              onClick={() =>
+                onDimensionChange(preset.id, preset.width, preset.height)
+              }
+              className={`w-full group relative px-3 py-2 rounded-md border transition-all overflow-hidden text-left ${
+                currentPlatform === preset.id
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400 bg-white'
+              }`}
+              title={preset.description}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-medium text-gray-900 group-hover:text-blue-600">
+                    {preset.name}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {preset.width} × {preset.height} pixels
+                  </div>
+                </div>
+                {currentPlatform === preset.id && (
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className="text-xs text-gray-500 text-center bg-gray-50 rounded p-2">
+          Current: {currentWidth} × {currentHeight}px
         </div>
       </div>
 
