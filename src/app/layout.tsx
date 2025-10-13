@@ -25,6 +25,35 @@ export const metadata: Metadata = {
     apple: [
       { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' }
     ]
+  },
+  openGraph: {
+    title: 'ElevateCover - Professional LinkedIn Banner Generator',
+    description:
+      'Create high-impact, brand-aligned LinkedIn cover images instantly. Customize colors, text, and graphics to communicate your unique value proposition.',
+    type: 'website',
+    url: 'https://elevate-cover.vercel.app',
+    siteName: 'ElevateCover',
+    images: [
+      {
+        url: 'https://elevate-cover.vercel.app/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ElevateCover - Professional LinkedIn Banner Generator',
+        type: 'image/png'
+      }
+    ],
+    locale: 'en_US'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ElevateCover - Professional LinkedIn Banner Generator',
+    description:
+      'Create high-impact, brand-aligned LinkedIn cover images instantly. Customize colors, text, and graphics to communicate your unique value proposition.',
+    images: ['https://elevate-cover.vercel.app/images/og-image.png']
+  },
+  metadataBase: new URL('https://elevate-cover.vercel.app'),
+  alternates: {
+    canonical: '/'
   }
 };
 
