@@ -1,8 +1,17 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-export type GraphicStyle = 'dots' | 'funnel' | 'network';
+export type GraphicStyle =
+  | 'dots'
+  | 'funnel'
+  | 'network'
+  | 'waves'
+  | 'geometric'
+  | 'particles'
+  | 'rays'
+  | 'spiral'
+  | 'hexagons';
 
 interface BannerCanvasProps {
   primaryText: string;
@@ -62,6 +71,18 @@ export default function BannerCanvas({
         return renderFunnel(scale);
       case 'network':
         return renderNetwork(scale);
+      case 'waves':
+        return renderWaves(scale);
+      case 'geometric':
+        return renderGeometric(scale);
+      case 'particles':
+        return renderParticles(scale);
+      case 'rays':
+        return renderRays(scale);
+      case 'spiral':
+        return renderSpiral(scale);
+      case 'hexagons':
+        return renderHexagons(scale);
       default:
         return null;
     }
@@ -249,6 +270,315 @@ export default function BannerCanvas({
     });
 
     return <g transform={`scale(${scale + 0.5})`}>{elements}</g>;
+  };
+
+  const renderWaves = (_scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const waves = 4;
+
+    for (let i = 0; i < waves; i++) {
+      const amplitude = (20 + i * 10) * Math.min(scaleX, scaleY);
+      const frequency = 0.01 + i * 0.002;
+      const yOffset = height / 2 - waves * 15 * scaleY + i * 30 * scaleY;
+      const points = [];
+
+      for (let x = 0; x <= width; x += 10) {
+        const y = yOffset + Math.sin(x * frequency) * amplitude;
+        points.push(`${x},${y}`);
+      }
+
+      const pathD = `M ${points.join(' L ')} L ${width},${height} L 0,${height} Z`;
+      const opacity = 0.15 + i * 0.1;
+      const color = i < 2 ? quantityColor : qualityColor;
+
+      elements.push(
+        <path key={`wave-${i}`} d={pathD} fill={color} opacity={opacity} />
+      );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderGeometric = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+
+    // Triangles on the left (Quantity)
+    const triangles = [
+      { x: 150, y: 100, size: 50 },
+      { x: 250, y: 180, size: 40 },
+      { x: 180, y: 250, size: 45 },
+      { x: 300, y: 120, size: 35 }
+    ];
+
+    triangles.forEach((tri, idx) => {
+      const x = tri.x * scaleX;
+      const y = tri.y * scaleY;
+      const size = tri.size * Math.min(scaleX, scaleY);
+      const path = `M ${x},${y - size} L ${x + size * 0.866},${y + size * 0.5} L ${x - size * 0.866},${y + size * 0.5} Z`;
+
+      elements.push(
+        <path
+          key={`tri-${idx}`}
+          d={path}
+          fill={quantityColor}
+          opacity={0.3 + idx * 0.1}
+          transform={`rotate(${idx * 30} ${x} ${y})`}
+        />
+      );
+    });
+
+    // Squares in the middle (Transition)
+    const squares = [
+      { x: 450, y: 150, size: 40 },
+      { x: 550, y: 200, size: 35 }
+    ];
+
+    squares.forEach((sq, idx) => {
+      const x = sq.x * scaleX;
+      const y = sq.y * scaleY;
+      const size = sq.size * Math.min(scaleX, scaleY);
+
+      elements.push(
+        <rect
+          key={`sq-${idx}`}
+          x={x - size / 2}
+          y={y - size / 2}
+          width={size}
+          height={size}
+          fill="url(#gradient)"
+          opacity={0.5}
+          transform={`rotate(${45 + idx * 15} ${x} ${y})`}
+        />
+      );
+    });
+
+    // Circles on the right (Quality)
+    const circles = [
+      { x: 750, y: 140, r: 45 },
+      { x: 850, y: 200, r: 50 },
+      { x: 950, y: 160, r: 55 }
+    ];
+
+    circles.forEach((cir, idx) => {
+      const x = cir.x * scaleX;
+      const y = cir.y * scaleY;
+      const r = cir.r * Math.min(scaleX, scaleY);
+
+      elements.push(
+        <circle
+          key={`cir-${idx}`}
+          cx={x}
+          cy={y}
+          r={r}
+          fill={qualityColor}
+          opacity={0.4 + idx * 0.15}
+        />
+      );
+    });
+
+    return <g transform={`scale(${scale + 0.3})`}>{elements}</g>;
+  };
+
+  const renderParticles = (_scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const particleCount = 60;
+    const quantitySeed = createSeed(primaryText + quantityColor, 'particles');
+
+    for (let i = 0; i < particleCount; i++) {
+      const progress = i / particleCount;
+      const seed = quantitySeed + i;
+
+      // Position particles along a transformation path
+      const x = width * (0.1 + progress * 0.8);
+      const y = height * (0.3 + seededRandom(seed) * 0.4);
+
+      // Size increases from left to right (quality)
+      const size = (2 + progress * 8) * (width / 1584);
+
+      // Color transitions from quantity to quality
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+      const opacity = 0.3 + seededRandom(seed + 1000) * 0.5;
+
+      elements.push(
+        <circle
+          key={`particle-${i}`}
+          cx={x}
+          cy={y}
+          r={size}
+          fill={color}
+          opacity={opacity}
+        />
+      );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderRays = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const centerX = width * 0.3;
+    const centerY = height / 2;
+    const rayCount = 12;
+
+    for (let i = 0; i < rayCount; i++) {
+      const angle = (i / rayCount) * Math.PI * 2;
+      const length = (100 + i * 30) * Math.min(scaleX, scaleY);
+      const thickness = 3 * Math.min(scaleX, scaleY);
+
+      const x1 = centerX;
+      const y1 = centerY;
+      const x2 = centerX + Math.cos(angle) * length;
+      const y2 = centerY + Math.sin(angle) * length;
+
+      const color = i < rayCount / 2 ? quantityColor : qualityColor;
+      const opacity = 0.2 + (i / rayCount) * 0.4;
+
+      elements.push(
+        <line
+          key={`ray-${i}`}
+          x1={x1}
+          y1={y1}
+          x2={x2}
+          y2={y2}
+          stroke={color}
+          strokeWidth={thickness}
+          opacity={opacity}
+          strokeLinecap="round"
+        />
+      );
+    }
+
+    // Central circle
+    elements.push(
+      <circle
+        key="ray-center"
+        cx={centerX}
+        cy={centerY}
+        r={15 * Math.min(scaleX, scaleY)}
+        fill="url(#gradient)"
+        opacity={0.8}
+      />
+    );
+
+    return <g transform={`scale(${scale + 0.4})`}>{elements}</g>;
+  };
+
+  const renderSpiral = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const spirals = 2;
+
+    for (let s = 0; s < spirals; s++) {
+      const points: string[] = [];
+      const rotationOffset = s * Math.PI;
+      const color = s === 0 ? quantityColor : qualityColor;
+
+      for (let i = 0; i <= 100; i++) {
+        const t = i / 100;
+        const angle = t * Math.PI * 4 + rotationOffset;
+        const radius = t * 300 * Math.min(scaleX, scaleY);
+
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+
+        points.push(`${x},${y}`);
+      }
+
+      elements.push(
+        <polyline
+          key={`spiral-${s}`}
+          points={points.join(' ')}
+          fill="none"
+          stroke={color}
+          strokeWidth={4 * Math.min(scaleX, scaleY)}
+          opacity={0.5}
+          strokeLinecap="round"
+        />
+      );
+
+      // Add circles along the spiral
+      for (let i = 0; i <= 100; i += 20) {
+        const t = i / 100;
+        const angle = t * Math.PI * 4 + rotationOffset;
+        const radius = t * 300 * Math.min(scaleX, scaleY);
+
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+        const circleR = (3 + t * 6) * Math.min(scaleX, scaleY);
+
+        elements.push(
+          <circle
+            key={`spiral-dot-${s}-${i}`}
+            cx={x}
+            cy={y}
+            r={circleR}
+            fill={color}
+            opacity={0.7}
+          />
+        );
+      }
+    }
+
+    return <g transform={`scale(${scale + 0.2})`}>{elements}</g>;
+  };
+
+  const renderHexagons = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const hexSize = 35 * Math.min(scaleX, scaleY);
+    const cols = 12;
+    const rows = 4;
+
+    const createHexPath = (cx: number, cy: number, size: number) => {
+      const points: string[] = [];
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const x = cx + size * Math.cos(angle);
+        const y = cy + size * Math.sin(angle);
+        points.push(`${x},${y}`);
+      }
+      return `M ${points.join(' L ')} Z`;
+    };
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const xOffset = col * hexSize * 1.73 + (row % 2) * hexSize * 0.865;
+        const yOffset = row * hexSize * 1.5;
+
+        const cx = 150 * scaleX + xOffset;
+        const cy = 100 * scaleY + yOffset;
+
+        if (cx > width * 0.95) continue;
+
+        const progress = col / cols;
+        const color = progress < 0.5 ? quantityColor : qualityColor;
+        const opacity = 0.2 + progress * 0.4;
+        const size = hexSize * (0.7 + progress * 0.3);
+
+        elements.push(
+          <path
+            key={`hex-${row}-${col}`}
+            d={createHexPath(cx, cy, size)}
+            fill={color}
+            opacity={opacity}
+            stroke={color}
+            strokeWidth={1}
+          />
+        );
+      }
+    }
+
+    return <g transform={`scale(${scale + 0.4})`}>{elements}</g>;
   };
 
   const getTextAnchor = () => {

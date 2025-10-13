@@ -416,11 +416,23 @@ export default function ControlPanel({
         <h3 className="text-lg font-semibold text-gray-900">Graphic Style</h3>
 
         <div className="grid grid-cols-3 gap-2">
-          {(['dots', 'funnel', 'network'] as const).map((style) => (
+          {(
+            [
+              'dots',
+              'funnel',
+              'network',
+              'waves',
+              'geometric',
+              'particles',
+              'rays',
+              'spiral',
+              'hexagons'
+            ] as const
+          ).map((style) => (
             <button
               key={style}
               onClick={() => setGraphicStyle(style)}
-              className={`px-4 py-3 rounded-md font-medium transition-colors ${
+              className={`px-3 py-3 rounded-md font-medium transition-colors text-sm ${
                 graphicStyle === style
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -432,11 +444,23 @@ export default function ControlPanel({
         </div>
         <p className="text-xs text-gray-500">
           {graphicStyle === 'dots' &&
-            'Represents quantity transitioning to quality through scattered to refined elements'}
+            'Scattered to refined elements representing quantity transitioning to quality'}
           {graphicStyle === 'funnel' &&
             'Visualizes the filtering process from wide input to focused output'}
           {graphicStyle === 'network' &&
             'Shows interconnected growth from simple to complex relationships'}
+          {graphicStyle === 'waves' &&
+            'Flowing waves symbolizing smooth transformation and continuous improvement'}
+          {graphicStyle === 'geometric' &&
+            'Triangles to circles evolution representing structural refinement'}
+          {graphicStyle === 'particles' &&
+            'Dynamic particles growing in size showing quality enhancement'}
+          {graphicStyle === 'rays' &&
+            'Radiating energy beams illustrating expansion and focus'}
+          {graphicStyle === 'spiral' &&
+            'Dual spirals depicting iterative growth and convergence'}
+          {graphicStyle === 'hexagons' &&
+            'Honeycomb pattern showing systematic organization and efficiency'}
         </p>
       </div>
 
