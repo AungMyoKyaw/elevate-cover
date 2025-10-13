@@ -11,7 +11,13 @@ export type GraphicStyle =
   | 'particles'
   | 'rays'
   | 'spiral'
-  | 'hexagons';
+  | 'hexagons'
+  | 'flow'
+  | 'prism'
+  | 'constellation'
+  | 'ripple'
+  | 'mosaic'
+  | 'aurora';
 
 interface BannerCanvasProps {
   primaryText: string;
@@ -72,17 +78,29 @@ export default function BannerCanvas({
       case 'network':
         return renderNetwork(scale);
       case 'waves':
-        return renderWaves(scale);
+        return renderWaves();
       case 'geometric':
         return renderGeometric(scale);
       case 'particles':
-        return renderParticles(scale);
+        return renderParticles();
       case 'rays':
         return renderRays(scale);
       case 'spiral':
         return renderSpiral(scale);
       case 'hexagons':
         return renderHexagons(scale);
+      case 'flow':
+        return renderFlow(scale);
+      case 'prism':
+        return renderPrism(scale);
+      case 'constellation':
+        return renderConstellation();
+      case 'ripple':
+        return renderRipple();
+      case 'mosaic':
+        return renderMosaic(scale);
+      case 'aurora':
+        return renderAurora();
       default:
         return null;
     }
@@ -272,7 +290,7 @@ export default function BannerCanvas({
     return <g transform={`scale(${scale + 0.5})`}>{elements}</g>;
   };
 
-  const renderWaves = (_scale: number) => {
+  const renderWaves = () => {
     const elements: React.JSX.Element[] = [];
     const scaleX = width / 1584;
     const scaleY = height / 396;
@@ -383,7 +401,7 @@ export default function BannerCanvas({
     return <g transform={`scale(${scale + 0.3})`}>{elements}</g>;
   };
 
-  const renderParticles = (_scale: number) => {
+  const renderParticles = () => {
     const elements: React.JSX.Element[] = [];
     const particleCount = 60;
     const quantitySeed = createSeed(primaryText + quantityColor, 'particles');
@@ -579,6 +597,304 @@ export default function BannerCanvas({
     }
 
     return <g transform={`scale(${scale + 0.4})`}>{elements}</g>;
+  };
+
+  const renderFlow = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const paths = 5;
+
+    for (let i = 0; i < paths; i++) {
+      const yBase = height * (0.2 + i * 0.15);
+      const points: string[] = [];
+
+      for (let x = 0; x <= width; x += 20) {
+        const wave1 = Math.sin((x / width) * Math.PI * 2 + i) * 20 * scaleY;
+        const wave2 =
+          Math.sin((x / width) * Math.PI * 3 + i * 0.5) * 15 * scaleY;
+        const y = yBase + wave1 + wave2;
+        points.push(`${x},${y}`);
+      }
+
+      const progress = i / paths;
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+      const pathD = `M ${points.join(' L ')}`;
+
+      elements.push(
+        <path
+          key={`flow-${i}`}
+          d={pathD}
+          fill="none"
+          stroke={color}
+          strokeWidth={3 * Math.min(scaleX, scaleY)}
+          opacity={0.4 + progress * 0.3}
+          strokeLinecap="round"
+        />
+      );
+    }
+
+    return <g transform={`scale(${scale + 0.3})`}>{elements}</g>;
+  };
+
+  const renderPrism = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const centerX = width * 0.35;
+    const centerY = height / 2;
+
+    // Create prism effect with triangular light rays
+    const rays = 8;
+    for (let i = 0; i < rays; i++) {
+      const angle = (i / rays) * Math.PI - Math.PI / 2;
+      const spread = 0.3;
+      const length = 250 * Math.min(scaleX, scaleY);
+
+      const x1 = centerX;
+      const y1 = centerY;
+      const x2 = centerX + Math.cos(angle - spread) * length;
+      const y2 = centerY + Math.sin(angle - spread) * length;
+      const x3 = centerX + Math.cos(angle + spread) * length;
+      const y3 = centerY + Math.sin(angle + spread) * length;
+
+      const progress = i / rays;
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+      const pathD = `M ${x1},${y1} L ${x2},${y2} L ${x3},${y3} Z`;
+
+      elements.push(
+        <path
+          key={`prism-${i}`}
+          d={pathD}
+          fill={color}
+          opacity={0.2 + progress * 0.3}
+        />
+      );
+    }
+
+    // Central prism
+    const prismSize = 30 * Math.min(scaleX, scaleY);
+    const prismPath = `M ${centerX},${centerY - prismSize} L ${centerX + prismSize * 0.866},${centerY + prismSize * 0.5} L ${centerX - prismSize * 0.866},${centerY + prismSize * 0.5} Z`;
+
+    elements.push(
+      <path
+        key="prism-center"
+        d={prismPath}
+        fill="url(#gradient)"
+        opacity={0.9}
+      />
+    );
+
+    return <g transform={`scale(${scale + 0.4})`}>{elements}</g>;
+  };
+
+  const renderConstellation = () => {
+    const elements: React.JSX.Element[] = [];
+    const starCount = 30;
+    const seed = createSeed(primaryText + quantityColor, 'constellation');
+
+    const stars: Array<{
+      x: number;
+      y: number;
+      size: number;
+      progress: number;
+    }> = [];
+
+    for (let i = 0; i < starCount; i++) {
+      const progress = i / starCount;
+      const x = width * (0.1 + seededRandom(seed + i) * 0.8);
+      const y = height * (0.2 + seededRandom(seed + i + 1000) * 0.6);
+      const size = (2 + progress * 5) * (width / 1584);
+
+      stars.push({ x, y, size, progress });
+    }
+
+    // Draw connections between nearby stars
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const dx = stars[j].x - stars[i].x;
+        const dy = stars[j].y - stars[i].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < width * 0.15) {
+          const avgProgress = (stars[i].progress + stars[j].progress) / 2;
+          const color = avgProgress < 0.5 ? quantityColor : qualityColor;
+
+          elements.push(
+            <line
+              key={`constellation-line-${i}-${j}`}
+              x1={stars[i].x}
+              y1={stars[i].y}
+              x2={stars[j].x}
+              y2={stars[j].y}
+              stroke={color}
+              strokeWidth={1 * (width / 1584)}
+              opacity={0.3}
+            />
+          );
+        }
+      }
+    }
+
+    // Draw stars
+    stars.forEach((star, idx) => {
+      const color = star.progress < 0.5 ? quantityColor : qualityColor;
+
+      elements.push(
+        <circle
+          key={`constellation-star-${idx}`}
+          cx={star.x}
+          cy={star.y}
+          r={star.size}
+          fill={color}
+          opacity={0.8}
+        />
+      );
+
+      // Add star glow
+      elements.push(
+        <circle
+          key={`constellation-glow-${idx}`}
+          cx={star.x}
+          cy={star.y}
+          r={star.size * 2}
+          fill={color}
+          opacity={0.2}
+        />
+      );
+    });
+
+    return <g>{elements}</g>;
+  };
+
+  const renderRipple = () => {
+    const elements: React.JSX.Element[] = [];
+    const centerX = width * 0.3;
+    const centerY = height / 2;
+    const ripples = 8;
+
+    for (let i = 0; i < ripples; i++) {
+      const progress = i / ripples;
+      const radius = (50 + i * 40) * (width / 1584);
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+
+      elements.push(
+        <circle
+          key={`ripple-${i}`}
+          cx={centerX}
+          cy={centerY}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={2 * (width / 1584)}
+          opacity={0.6 - progress * 0.4}
+        />
+      );
+    }
+
+    // Center point
+    elements.push(
+      <circle
+        key="ripple-center"
+        cx={centerX}
+        cy={centerY}
+        r={10 * (width / 1584)}
+        fill="url(#gradient)"
+        opacity={0.9}
+      />
+    );
+
+    return <g>{elements}</g>;
+  };
+
+  const renderMosaic = (scale: number) => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const tileSize = 40 * Math.min(scaleX, scaleY);
+    const cols = Math.floor(width / tileSize);
+    const rows = Math.floor(height / tileSize);
+    const seed = createSeed(primaryText + quantityColor, 'mosaic');
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const x = col * tileSize;
+        const y = row * tileSize;
+        const progress = col / cols;
+        const randomness = seededRandom(seed + row * cols + col);
+
+        // Skip some tiles randomly for interesting pattern
+        if (randomness > 0.7) continue;
+
+        const color = progress < 0.5 ? quantityColor : qualityColor;
+        const opacity = 0.2 + randomness * 0.4;
+        const size = tileSize * (0.6 + randomness * 0.4);
+
+        // Create diamond shape
+        const centerX = x + tileSize / 2;
+        const centerY = y + tileSize / 2;
+        const half = size / 2;
+        const pathD = `M ${centerX},${centerY - half} L ${centerX + half},${centerY} L ${centerX},${centerY + half} L ${centerX - half},${centerY} Z`;
+
+        elements.push(
+          <path
+            key={`mosaic-${row}-${col}`}
+            d={pathD}
+            fill={color}
+            opacity={opacity}
+          />
+        );
+      }
+    }
+
+    return <g transform={`scale(${scale + 0.3})`}>{elements}</g>;
+  };
+
+  const renderAurora = () => {
+    const elements: React.JSX.Element[] = [];
+    const layers = 5;
+
+    for (let i = 0; i < layers; i++) {
+      const points: string[] = [];
+      const yBase = height * (0.3 + i * 0.1);
+      const amplitude = 80 * (height / 396);
+      const frequency = 0.008 + i * 0.002;
+
+      for (let x = 0; x <= width; x += 10) {
+        const y1 = yBase + Math.sin(x * frequency) * amplitude;
+        const y2 = Math.sin(x * frequency * 1.5 + i) * amplitude * 0.5;
+        points.push(`${x},${y1 + y2}`);
+      }
+
+      const progress = i / layers;
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+
+      // Create flowing curtain effect
+      const pathD = `M ${points[0]} L ${points.join(' L ')} L ${width},${height} L 0,${height} Z`;
+
+      elements.push(
+        <path
+          key={`aurora-${i}`}
+          d={pathD}
+          fill={color}
+          opacity={0.15 + progress * 0.1}
+        />
+      );
+
+      // Add shimmer line on top
+      elements.push(
+        <polyline
+          key={`aurora-line-${i}`}
+          points={points.join(' ')}
+          fill="none"
+          stroke={color}
+          strokeWidth={2 * (width / 1584)}
+          opacity={0.5}
+        />
+      );
+    }
+
+    return <g>{elements}</g>;
   };
 
   const getTextAnchor = () => {

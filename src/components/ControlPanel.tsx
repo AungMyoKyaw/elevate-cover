@@ -100,6 +100,90 @@ const presets = [
     name: 'Mint Fresh',
     quantityColor: '#10B981',
     qualityColor: '#06B6D4'
+  },
+  {
+    id: 'phoenix',
+    name: 'Phoenix Fire',
+    quantityColor: '#DC2626',
+    qualityColor: '#FB923C'
+  },
+  {
+    id: 'aurora',
+    name: 'Aurora',
+    quantityColor: '#8B5CF6',
+    qualityColor: '#06B6D4'
+  },
+  {
+    id: 'emerald',
+    name: 'Emerald Dream',
+    quantityColor: '#059669',
+    qualityColor: '#34D399'
+  },
+  {
+    id: 'twilight',
+    name: 'Twilight',
+    quantityColor: '#4C1D95',
+    qualityColor: '#F472B6'
+  },
+  {
+    id: 'magma',
+    name: 'Magma',
+    quantityColor: '#991B1B',
+    qualityColor: '#FBBF24'
+  },
+  {
+    id: 'arctic',
+    name: 'Arctic Ice',
+    quantityColor: '#0EA5E9',
+    qualityColor: '#E0F2FE'
+  },
+  {
+    id: 'sapphire',
+    name: 'Sapphire',
+    quantityColor: '#1E3A8A',
+    qualityColor: '#60A5FA'
+  },
+  {
+    id: 'gold',
+    name: 'Golden Hour',
+    quantityColor: '#B45309',
+    qualityColor: '#FDE047'
+  },
+  {
+    id: 'cherry',
+    name: 'Cherry Blossom',
+    quantityColor: '#DB2777',
+    qualityColor: '#FBE2E8'
+  },
+  {
+    id: 'slate',
+    name: 'Slate Storm',
+    quantityColor: '#334155',
+    qualityColor: '#94A3B8'
+  },
+  {
+    id: 'neon',
+    name: 'Neon Lights',
+    quantityColor: '#FF1493',
+    qualityColor: '#00FF7F'
+  },
+  {
+    id: 'cosmic',
+    name: 'Cosmic Nebula',
+    quantityColor: '#581C87',
+    qualityColor: '#C026D3'
+  },
+  {
+    id: 'tropical',
+    name: 'Tropical Paradise',
+    quantityColor: '#15803D',
+    qualityColor: '#FDE047'
+  },
+  {
+    id: 'crimson',
+    name: 'Crimson Tide',
+    quantityColor: '#9F1239',
+    qualityColor: '#FDA4AF'
   }
 ];
 
@@ -441,7 +525,13 @@ export default function ControlPanel({
               'particles',
               'rays',
               'spiral',
-              'hexagons'
+              'hexagons',
+              'flow',
+              'prism',
+              'constellation',
+              'ripple',
+              'mosaic',
+              'aurora'
             ] as const
           ).map((style) => (
             <button
@@ -476,6 +566,18 @@ export default function ControlPanel({
             'Dual spirals depicting iterative growth and convergence'}
           {graphicStyle === 'hexagons' &&
             'Honeycomb pattern showing systematic organization and efficiency'}
+          {graphicStyle === 'flow' &&
+            'Flowing streams representing continuous movement toward excellence'}
+          {graphicStyle === 'prism' &&
+            'Light refraction symbolizing transformation and spectrum of possibilities'}
+          {graphicStyle === 'constellation' &&
+            'Connected stars illustrating patterns emerging from individual elements'}
+          {graphicStyle === 'ripple' &&
+            'Expanding ripples showing impact spreading from a single point'}
+          {graphicStyle === 'mosaic' &&
+            'Tiles forming a bigger picture representing incremental improvement'}
+          {graphicStyle === 'aurora' &&
+            'Dancing lights depicting dynamic and beautiful transformation'}
         </p>
       </div>
 
