@@ -4,10 +4,10 @@
 
 ElevateCover is an intuitive, web-based SVG generator that offers highly customizable, professional banner templates. Customize colors, text, and graphics to communicate your unique value proposition through elegant, dynamic visual assets.
 
-![ElevateCover Banner](https://img.shields.io/badge/Status-MVP%20V1.0-brightgreen)
-![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38bdf8)
+![ElevateCover Banner](https://img.shields.io/badge/Status-MVP%20V1.0-brightgreen?style=flat-square)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38bdf8?style=flat-square)
 
 ![ElevateCover Screenshot](assets/elevate-cover.png)
 
@@ -38,7 +38,7 @@ ElevateCover is an intuitive, web-based SVG generator that offers highly customi
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/AungMyoKyaw/elevate-cover.git
 cd elevate-cover
 ```
 
@@ -116,7 +116,7 @@ Managing Partner who needs consistent visual brand identity across all employee 
 - **Export**: HTML Canvas API for PNG conversion
 - **Hosting**: Static site (Vercel/Netlify compatible)
 
-## �� Privacy & Security
+## 🔒 Privacy & Security
 
 - **Client-side Processing** - All rendering happens in your browser
 - **No Data Storage** - We don't store or transmit your designs
