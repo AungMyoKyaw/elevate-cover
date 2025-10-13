@@ -190,11 +190,13 @@ export default function ControlPanel({
                     background: `linear-gradient(to right, ${preset.quantityColor}, ${preset.qualityColor})`
                   }}
                 />
-                <span className={`text-sm font-medium ${
-                  currentPreset === preset.id
-                    ? 'text-blue-900'
-                    : 'text-gray-700 group-hover:text-gray-900'
-                }`}>
+                <span
+                  className={`text-sm font-medium ${
+                    currentPreset === preset.id
+                      ? 'text-blue-900'
+                      : 'text-gray-700 group-hover:text-gray-900'
+                  }`}
+                >
                   {preset.name}
                 </span>
               </div>
