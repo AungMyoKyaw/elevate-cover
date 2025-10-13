@@ -9,7 +9,15 @@ const presets: Record<string, { quantityColor: string; qualityColor: string }> =
     transformation: { quantityColor: '#EF4444', qualityColor: '#10B981' },
     professional: { quantityColor: '#3B82F6', qualityColor: '#8B5CF6' },
     warm: { quantityColor: '#F59E0B', qualityColor: '#EC4899' },
-    ocean: { quantityColor: '#06B6D4', qualityColor: '#3B82F6' }
+    ocean: { quantityColor: '#06B6D4', qualityColor: '#3B82F6' },
+    sunset: { quantityColor: '#FF6B6B', qualityColor: '#FFD93D' },
+    forest: { quantityColor: '#2D6A4F', qualityColor: '#95D5B2' },
+    royal: { quantityColor: '#5B21B6', qualityColor: '#C084FC' },
+    midnight: { quantityColor: '#1E293B', qualityColor: '#60A5FA' },
+    coral: { quantityColor: '#FF6B9D', qualityColor: '#FEC89A' },
+    cyber: { quantityColor: '#FF00FF', qualityColor: '#00FFFF' },
+    autumn: { quantityColor: '#D97706', qualityColor: '#DC2626' },
+    mint: { quantityColor: '#10B981', qualityColor: '#06B6D4' }
   };
 
 export default function Home() {

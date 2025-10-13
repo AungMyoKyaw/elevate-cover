@@ -51,6 +51,54 @@ const presets = [
     name: 'Ocean',
     quantityColor: '#06B6D4',
     qualityColor: '#3B82F6'
+  },
+  {
+    id: 'sunset',
+    name: 'Sunset Glow',
+    quantityColor: '#FF6B6B',
+    qualityColor: '#FFD93D'
+  },
+  {
+    id: 'forest',
+    name: 'Forest',
+    quantityColor: '#2D6A4F',
+    qualityColor: '#95D5B2'
+  },
+  {
+    id: 'royal',
+    name: 'Royal Purple',
+    quantityColor: '#5B21B6',
+    qualityColor: '#C084FC'
+  },
+  {
+    id: 'midnight',
+    name: 'Midnight',
+    quantityColor: '#1E293B',
+    qualityColor: '#60A5FA'
+  },
+  {
+    id: 'coral',
+    name: 'Coral Reef',
+    quantityColor: '#FF6B9D',
+    qualityColor: '#FEC89A'
+  },
+  {
+    id: 'cyber',
+    name: 'Cyberpunk',
+    quantityColor: '#FF00FF',
+    qualityColor: '#00FFFF'
+  },
+  {
+    id: 'autumn',
+    name: 'Autumn',
+    quantityColor: '#D97706',
+    qualityColor: '#DC2626'
+  },
+  {
+    id: 'mint',
+    name: 'Mint Fresh',
+    quantityColor: '#10B981',
+    qualityColor: '#06B6D4'
   }
 ];
 
