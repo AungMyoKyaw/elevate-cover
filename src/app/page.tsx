@@ -17,7 +17,21 @@ const presets: Record<string, { quantityColor: string; qualityColor: string }> =
     coral: { quantityColor: '#FF6B9D', qualityColor: '#FEC89A' },
     cyber: { quantityColor: '#FF00FF', qualityColor: '#00FFFF' },
     autumn: { quantityColor: '#D97706', qualityColor: '#DC2626' },
-    mint: { quantityColor: '#10B981', qualityColor: '#06B6D4' }
+    mint: { quantityColor: '#10B981', qualityColor: '#06B6D4' },
+    phoenix: { quantityColor: '#DC2626', qualityColor: '#FB923C' },
+    aurora: { quantityColor: '#8B5CF6', qualityColor: '#06B6D4' },
+    emerald: { quantityColor: '#059669', qualityColor: '#34D399' },
+    twilight: { quantityColor: '#4C1D95', qualityColor: '#F472B6' },
+    magma: { quantityColor: '#991B1B', qualityColor: '#FBBF24' },
+    arctic: { quantityColor: '#0EA5E9', qualityColor: '#E0F2FE' },
+    sapphire: { quantityColor: '#1E3A8A', qualityColor: '#60A5FA' },
+    gold: { quantityColor: '#B45309', qualityColor: '#FDE047' },
+    cherry: { quantityColor: '#DB2777', qualityColor: '#FBE2E8' },
+    slate: { quantityColor: '#334155', qualityColor: '#94A3B8' },
+    neon: { quantityColor: '#FF1493', qualityColor: '#00FF7F' },
+    cosmic: { quantityColor: '#581C87', qualityColor: '#C026D3' },
+    tropical: { quantityColor: '#15803D', qualityColor: '#FDE047' },
+    crimson: { quantityColor: '#9F1239', qualityColor: '#FDA4AF' }
   };
 
 export default function Home() {
