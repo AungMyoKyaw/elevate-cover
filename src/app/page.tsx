@@ -142,7 +142,7 @@ export default function Home() {
         {/* Main Content */}
         <div className="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
           {/* Canvas Preview */}
-          <div className="space-y-4">
+          <div className="lg:sticky lg:top-8 space-y-4">
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-semibold text-gray-900">
@@ -281,7 +281,7 @@ export default function Home() {
           </div>
 
           {/* Control Panel */}
-          <div className="lg:sticky lg:top-8">
+          <div>
             <ControlPanel
               primaryText={primaryText}
               setPrimaryText={setPrimaryText}
