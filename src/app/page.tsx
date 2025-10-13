@@ -34,6 +34,7 @@ export default function Home() {
   );
   const [graphicStyle, setGraphicStyle] = useState<GraphicStyle>('dots');
   const [currentPlatform, setCurrentPlatform] = useState('linkedin');
+  const [currentPreset, setCurrentPreset] = useState('professional');
   const [canvasWidth, setCanvasWidth] = useState(1584);
   const [canvasHeight, setCanvasHeight] = useState(396);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -43,6 +44,7 @@ export default function Home() {
     if (preset) {
       setQuantityColor(preset.quantityColor);
       setQualityColor(preset.qualityColor);
+      setCurrentPreset(presetId);
     }
   };
 
@@ -303,6 +305,7 @@ export default function Home() {
               onApplyPreset={handleApplyPreset}
               onDimensionChange={handleDimensionChange}
               currentPlatform={currentPlatform}
+              currentPreset={currentPreset}
               currentWidth={canvasWidth}
               currentHeight={canvasHeight}
             />

@@ -23,6 +23,7 @@ interface ControlPanelProps {
   onApplyPreset: (preset: string) => void;
   onDimensionChange: (platform: string, width: number, height: number) => void;
   currentPlatform: string;
+  currentPreset: string;
   currentWidth: number;
   currentHeight: number;
 }
@@ -161,6 +162,7 @@ export default function ControlPanel({
   onApplyPreset,
   onDimensionChange,
   currentPlatform,
+  currentPreset,
   currentWidth,
   currentHeight
 }: ControlPanelProps) {
@@ -174,7 +176,11 @@ export default function ControlPanel({
             <button
               key={preset.id}
               onClick={() => onApplyPreset(preset.id)}
-              className="group relative px-3 py-2 rounded-md border border-gray-300 hover:border-gray-400 transition-all overflow-hidden"
+              className={`group relative px-3 py-2 rounded-md border transition-all overflow-hidden ${
+                currentPreset === preset.id
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400 bg-white'
+              }`}
               title={preset.name}
             >
               <div className="flex items-center gap-2">
@@ -184,10 +190,17 @@ export default function ControlPanel({
                     background: `linear-gradient(to right, ${preset.quantityColor}, ${preset.qualityColor})`
                   }}
                 />
-                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                <span className={`text-sm font-medium ${
+                  currentPreset === preset.id
+                    ? 'text-blue-900'
+                    : 'text-gray-700 group-hover:text-gray-900'
+                }`}>
                   {preset.name}
                 </span>
               </div>
+              {currentPreset === preset.id && (
+                <div className="absolute top-2 right-2 w-2 h-2 bg-blue-600 rounded-full"></div>
+              )}
             </button>
           ))}
         </div>
