@@ -17,7 +17,13 @@ export type GraphicStyle =
   | 'constellation'
   | 'ripple'
   | 'mosaic'
-  | 'aurora';
+  | 'aurora'
+  | 'bricks'
+  | 'lines'
+  | 'blocks'
+  | 'brutalist-grid'
+  | 'striped'
+  | 'industrial';
 
 interface BannerCanvasProps {
   primaryText: string;
@@ -101,6 +107,18 @@ export default function BannerCanvas({
         return renderMosaic(scale);
       case 'aurora':
         return renderAurora();
+      case 'bricks':
+        return renderBricks();
+      case 'lines':
+        return renderLines();
+      case 'blocks':
+        return renderBlocks();
+      case 'brutalist-grid':
+        return renderBrutalistGrid();
+      case 'striped':
+        return renderStriped();
+      case 'industrial':
+        return renderIndustrial();
       default:
         return null;
     }
@@ -892,6 +910,259 @@ export default function BannerCanvas({
           opacity={0.5}
         />
       );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderBricks = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const brickWidth = 40 * scaleX;
+    const brickHeight = 30 * scaleY;
+    const seed = createSeed(primaryText + quantityColor, 'bricks');
+
+    let index = 0;
+    for (let y = 0; y < height; y += brickHeight + 2) {
+      for (let x = 0; x < width; x += brickWidth + 2) {
+        const offsetX =
+          (Math.floor(y / (brickHeight + 2)) % 2) * (brickWidth / 2);
+        const finalX = x + offsetX;
+        if (finalX + brickWidth > width) continue;
+
+        const progress = (finalX + y) / (width + height);
+        const color = progress < 0.5 ? quantityColor : qualityColor;
+        const opacity = 0.4 + seededRandom(seed + index) * 0.3;
+
+        elements.push(
+          <rect
+            key={`brick-${index}`}
+            x={finalX}
+            y={y}
+            width={brickWidth}
+            height={brickHeight}
+            fill={color}
+            opacity={opacity}
+            stroke="white"
+            strokeWidth={1}
+          />
+        );
+        index++;
+      }
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderLines = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const spacing = 25 * scaleX;
+
+    for (let i = 0; i < width / spacing; i++) {
+      const x = i * spacing;
+      const progress = i / (width / spacing);
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+      const thickness = 2 + progress * 4;
+
+      elements.push(
+        <line
+          key={`line-v-${i}`}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2={height}
+          stroke={color}
+          strokeWidth={thickness}
+          opacity={0.6}
+        />
+      );
+    }
+
+    for (let i = 0; i < height / (spacing * 1.5); i++) {
+      const y = i * spacing * 1.5;
+      const progress = i / (height / (spacing * 1.5));
+      const color = progress < 0.5 ? quantityColor : qualityColor;
+      const thickness = 1 + progress * 2;
+
+      elements.push(
+        <line
+          key={`line-h-${i}`}
+          x1={0}
+          y1={y}
+          x2={width}
+          y2={y}
+          stroke={color}
+          strokeWidth={thickness}
+          opacity={0.4}
+        />
+      );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderBlocks = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const scaleY = height / 396;
+    const blockSize = 60 * Math.min(scaleX, scaleY);
+    const seed = createSeed(primaryText + quantityColor, 'blocks');
+
+    let index = 0;
+    for (let y = -blockSize; y < height + blockSize; y += blockSize + 4) {
+      for (let x = -blockSize; x < width + blockSize; x += blockSize + 4) {
+        const progress = (x + y) / (width + height);
+        const color = progress < 0.5 ? quantityColor : qualityColor;
+        const rotation = seededRandom(seed + index) * 360;
+
+        elements.push(
+          <rect
+            key={`block-${index}`}
+            x={x}
+            y={y}
+            width={blockSize}
+            height={blockSize}
+            fill={color}
+            opacity={0.5 + seededRandom(seed + index + 1) * 0.3}
+            transform={`rotate(${rotation} ${x + blockSize / 2} ${y + blockSize / 2})`}
+          />
+        );
+        index++;
+      }
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderBrutalistGrid = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const cellSize = 50 * scaleX;
+    const lineWidth = 3;
+
+    // Vertical lines
+    for (let x = 0; x < width; x += cellSize) {
+      elements.push(
+        <line
+          key={`grid-v-${x}`}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2={height}
+          stroke={quantityColor}
+          strokeWidth={lineWidth}
+          opacity={0.8}
+        />
+      );
+    }
+
+    // Horizontal lines
+    for (let y = 0; y < height; y += cellSize * 0.75) {
+      elements.push(
+        <line
+          key={`grid-h-${y}`}
+          x1={0}
+          y1={y}
+          x2={width}
+          y2={y}
+          stroke={qualityColor}
+          strokeWidth={lineWidth}
+          opacity={0.8}
+        />
+      );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderStriped = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+    const stripeWidth = 30 * scaleX;
+
+    for (let x = 0; x < width; x += stripeWidth * 2) {
+      elements.push(
+        <rect
+          key={`stripe-${x}`}
+          x={x}
+          y={0}
+          width={stripeWidth}
+          height={height}
+          fill={quantityColor}
+          opacity={0.5}
+        />
+      );
+    }
+
+    const angle = 45;
+    for (let i = 0; i < 30; i++) {
+      const x = i * stripeWidth - height * Math.tan((angle * Math.PI) / 180);
+      elements.push(
+        <line
+          key={`diagonal-${i}`}
+          x1={x}
+          y1={0}
+          x2={x + height * Math.tan((angle * Math.PI) / 180)}
+          y2={height}
+          stroke={qualityColor}
+          strokeWidth={2}
+          opacity={0.6}
+        />
+      );
+    }
+
+    return <g>{elements}</g>;
+  };
+
+  const renderIndustrial = () => {
+    const elements: React.JSX.Element[] = [];
+    const scaleX = width / 1584;
+
+    // Metal plating effect with rectangles
+    const plateSize = 80 * scaleX;
+    let index = 0;
+
+    for (let y = 0; y < height; y += plateSize + 8) {
+      for (let x = 0; x < width; x += plateSize + 8) {
+        const isQuantity = (x + y) / (width + height) < 0.5;
+        const color = isQuantity ? quantityColor : qualityColor;
+
+        // Main plate
+        elements.push(
+          <rect
+            key={`plate-${index}`}
+            x={x}
+            y={y}
+            width={plateSize}
+            height={plateSize}
+            fill={color}
+            opacity={0.4}
+            stroke={color}
+            strokeWidth={2}
+          />
+        );
+
+        // Rivets
+        const rivetSpacing = plateSize / 3;
+        for (let rx = rivetSpacing; rx < plateSize; rx += rivetSpacing) {
+          for (let ry = rivetSpacing; ry < plateSize; ry += rivetSpacing) {
+            elements.push(
+              <circle
+                key={`rivet-${index}-${rx}-${ry}`}
+                cx={x + rx}
+                cy={y + ry}
+                r={4 * scaleX}
+                fill={color}
+                opacity={0.8}
+              />
+            );
+          }
+        }
+
+        index++;
+      }
     }
 
     return <g>{elements}</g>;

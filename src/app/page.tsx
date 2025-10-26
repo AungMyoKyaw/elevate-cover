@@ -31,7 +31,29 @@ const presets: Record<string, { quantityColor: string; qualityColor: string }> =
     neon: { quantityColor: '#FF1493', qualityColor: '#00FF7F' },
     cosmic: { quantityColor: '#581C87', qualityColor: '#C026D3' },
     tropical: { quantityColor: '#15803D', qualityColor: '#FDE047' },
-    crimson: { quantityColor: '#9F1239', qualityColor: '#FDA4AF' }
+    crimson: { quantityColor: '#9F1239', qualityColor: '#FDA4AF' },
+    'neobrutalism-stark': { quantityColor: '#000000', qualityColor: '#FFFFFF' },
+    'neobrutalism-bold': { quantityColor: '#1F2937', qualityColor: '#FCD34D' },
+    'neobrutalism-industrial': {
+      quantityColor: '#374151',
+      qualityColor: '#EF4444'
+    },
+    'neobrutalism-earthy': {
+      quantityColor: '#78350F',
+      qualityColor: '#FBBF24'
+    },
+    'neobrutalism-monochrome': {
+      quantityColor: '#111827',
+      qualityColor: '#D1D5DB'
+    },
+    'neobrutalism-accent': {
+      quantityColor: '#1F2937',
+      qualityColor: '#EC4899'
+    },
+    'neobrutalism-concrete': {
+      quantityColor: '#2D3748',
+      qualityColor: '#F59E0B'
+    }
   };
 
 export default function Home() {

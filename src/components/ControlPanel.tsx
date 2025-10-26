@@ -184,6 +184,48 @@ const presets = [
     name: 'Crimson Tide',
     quantityColor: '#9F1239',
     qualityColor: '#FDA4AF'
+  },
+  {
+    id: 'neobrutalism-stark',
+    name: 'Neo-Brutalism Stark',
+    quantityColor: '#000000',
+    qualityColor: '#FFFFFF'
+  },
+  {
+    id: 'neobrutalism-bold',
+    name: 'Neo-Brutalism Bold',
+    quantityColor: '#1F2937',
+    qualityColor: '#FCD34D'
+  },
+  {
+    id: 'neobrutalism-industrial',
+    name: 'Neo-Brutalism Industrial',
+    quantityColor: '#374151',
+    qualityColor: '#EF4444'
+  },
+  {
+    id: 'neobrutalism-earthy',
+    name: 'Neo-Brutalism Earthy',
+    quantityColor: '#78350F',
+    qualityColor: '#FBBF24'
+  },
+  {
+    id: 'neobrutalism-monochrome',
+    name: 'Neo-Brutalism Monochrome',
+    quantityColor: '#111827',
+    qualityColor: '#D1D5DB'
+  },
+  {
+    id: 'neobrutalism-accent',
+    name: 'Neo-Brutalism Accent',
+    quantityColor: '#1F2937',
+    qualityColor: '#EC4899'
+  },
+  {
+    id: 'neobrutalism-concrete',
+    name: 'Neo-Brutalism Concrete',
+    quantityColor: '#2D3748',
+    qualityColor: '#F59E0B'
   }
 ];
 
@@ -531,7 +573,13 @@ export default function ControlPanel({
               'constellation',
               'ripple',
               'mosaic',
-              'aurora'
+              'aurora',
+              'bricks',
+              'lines',
+              'blocks',
+              'brutalist-grid',
+              'striped',
+              'industrial'
             ] as const
           ).map((style) => (
             <button
@@ -578,6 +626,18 @@ export default function ControlPanel({
             'Tiles forming a bigger picture representing incremental improvement'}
           {graphicStyle === 'aurora' &&
             'Dancing lights depicting dynamic and beautiful transformation'}
+          {graphicStyle === 'bricks' &&
+            'Stacked bricks creating solid, structured brutalist composition'}
+          {graphicStyle === 'lines' &&
+            'Geometric lines forming a grid-based industrial aesthetic'}
+          {graphicStyle === 'blocks' &&
+            'Bold rectangular blocks representing raw, architectural strength'}
+          {graphicStyle === 'brutalist-grid' &&
+            'Heavy structural grid emphasizing bold, concrete-like patterns'}
+          {graphicStyle === 'striped' &&
+            'Parallel stripes with diagonal accents creating dynamic brutalist effect'}
+          {graphicStyle === 'industrial' &&
+            'Metal plating with rivets evoking industrial machinery aesthetic'}
         </p>
       </div>
 
